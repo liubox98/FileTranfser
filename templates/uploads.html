@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>上传文件列表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            position: relative;
+        }
+
+        a {
+            text-decoration: none;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+
+        .thumbnail {
+            display: none;
+            position: absolute;
+            top: -120px;
+            left: 0;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px 0px #aaa;
+        }
+
+        img,
+        video {
+            max-width: 500px;
+            max-height: 500px;
+        }
+
+        li:hover .thumbnail {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>上传文件列表</h1>
+    <h5>通过光标悬浮预览查找对应文件，点击下载本地</h5>
+    <ul>
+        {% for filename in filenames %}
+        <li>
+            <a href="/download/{{ filename }}" download>{{ filename }}</a>
+            <div class="thumbnail">
+                {% if filename.lower().endswith('.mp4') %}
+                <video controls>
+                    <source src="/download/{{ filename }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                {% else %}
+                <img src="/download/{{ filename }}" alt="{{ filename }}">
+                {% endif %}
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>
