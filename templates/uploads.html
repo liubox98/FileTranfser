@@ -69,7 +69,10 @@
                 {% if filename.lower().endswith('.mp4') %}
                 <video controls>
                     <source src="/download/{{ filename }}" type="video/mp4">
-                    Your browser does not support the video tag.
+                </video>
+                {% elif filename.lower().endswith('.mov') %}
+                <video controls>
+                    <source src="/download/{{ filename }}" type="video/mp4">
                 </video>
                 {% else %}
                 <img src="/download/{{ filename }}" alt="{{ filename }}">
