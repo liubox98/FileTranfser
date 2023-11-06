@@ -42,14 +42,17 @@ def upload_file():
     if "file" not in request.files:
         return redirect(request.url)
 
-    file = request.files["file"]
+    files = request.files.getlist("file")
 
-    if file.filename == "":
-        return "No selected file"
+    for file in files:
+        if file.filename == "":
+            return "No selected file"
 
-    if file:
-        file.save("uploads/" + file.filename)
-        return render_template("index.html", message="File uploaded successfully!")
+        if file:
+            file.save(os.path.join(app.config["UPLOAD_FOLDER"], file.filename))
+
+    return render_template("index.html", message="Files uploaded successfully!")
+
 
 
 @app.route("/download/<filename>")
@@ -67,4 +70,4 @@ if __name__ == "__main__":
     # 启动清理操作的计时器
     perform_cleanup()
 
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0")
